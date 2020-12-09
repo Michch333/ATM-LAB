@@ -10,7 +10,6 @@ namespace ATMMachineLab
         {
             bool shouldContinue = true;
             var myATM = new ATM();
-            myATM.PrintAllAccounts();
             while (shouldContinue)
             {
                 var selection = PromptForAction();
@@ -26,8 +25,9 @@ namespace ATMMachineLab
                         continue;
                     }
                 }
-                shouldContinue = ShouldDoSomethingElse();
+                shouldContinue = AreYouSure();
             }
+            myATM.UpdateRecords();
         }
         public static uint PromptForAction() 
         {
@@ -47,6 +47,7 @@ namespace ATMMachineLab
                 }
             }
         }
+
         public static void RunAccountAction(uint selection, ATM myATM)
         {
             if (selection == 1)
@@ -96,10 +97,6 @@ namespace ATMMachineLab
                     
                 }
                 
-            }
-            if (selection == 3)
-            {
-                myATM.UpdateRecords();
             }
         }
         public static uint PromptForTransaction()
@@ -177,7 +174,7 @@ namespace ATMMachineLab
         {
             while (true)
             {
-                Console.WriteLine("Would you like to do something else?\n[1]:Yes\n[2]: No");
+                Console.WriteLine("Would you like to do something else?\n[1]: Yes\n[2]: No");
                 if (uint.TryParse(Console.ReadLine(), out uint continueSelection))
                 {
                     if (continueSelection == 1)
@@ -188,6 +185,29 @@ namespace ATMMachineLab
                     else
                     {
                         return false;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Sorry, that is not a valid selection.");
+                }
+            }
+        }
+        public static bool AreYouSure()
+        {
+            while (true)
+            {
+                Console.WriteLine("Are you sure?\n[1]: Yes\n[2]: No");
+                if (uint.TryParse(Console.ReadLine(), out uint continueSelection))
+                {
+                    if (continueSelection == 1)
+                    {
+                        Console.Clear();
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
                     }
                 }
                 else
